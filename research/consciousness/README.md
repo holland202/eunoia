@@ -6,29 +6,34 @@
 > Eunoia is not a machine that decides whether an AI is conscious.
 > Eunoia is a machine for making the reasoning about that question auditable.
 
-## Primary objective
+## Top-level epistemic invariants (FROZEN)
 
-Theory-explicit, evidence-bound, reproducible evaluation of **consciousness-relevant properties** without conflating behavior, intelligence, agency, self-report, or capability with phenomenal consciousness.
+| ID | Invariant |
+|----|-----------|
+| **E1** | Observation ≠ Interpretation ≠ Theory ≠ Ontological Conclusion |
+| **E2** | Intelligence ≠ Consciousness |
+| **E3** | Agency ≠ Consciousness |
+| **E4** | Self-Report ≠ Direct Access to Experience |
+| **E5** | P(C \| E,T,A) ≠ Measured Amount of Consciousness |
+| **E6** | Consciousness Evidence ≠ Governance Authority |
+| **E7** | NOT_SUPPORTED ≠ REFUTED |
+| **E8** | Theory-Conditional Credence ≠ Theory-Independent Probability |
 
-## Central principle
+Canonical: [EPISTEMIC_INVARIANTS.md](EPISTEMIC_INVARIANTS.md)
 
-Evidence about consciousness is not consciousness itself.
+E8 forbids displaying P(C|E,T,A)=0.73 as "Consciousness: 73%".
 
-## Core conditional
+## Architectural boundary
 
-P(C | E, T, A) — never an unconditional consciousness score; not a measured amount of experience.
+Assessment ↛ Authority.
 
-## Organizational grains (not a ladder)
+Consciousness assessment is not a Veritas Gate decision variable.
 
-L1 Behavioral | L2 Computational | L3 Intrinsic causal-structural | L4 Organismic | L5 Organism–environment | L_E Epistemic layer
+## Architecture
 
-## Stack
+ORGANIZATION (L1–L5) + EPISTEMOLOGY (E1–E8) → THEORY REGISTRY → HYPOTHESIS → SWAY → EXPERIMENT → EVIDENCE → BAYESIAN MODEL → THEORY SENSITIVITY → EPISTEMIC STATUS → HUMAN REVIEW
 
-SWAY → experimental discipline | Veritas → evidence governance | Eunoia consciousness module → domain laboratory
+Intake: [EUNOIA_PACKET.md](EUNOIA_PACKET.md)
 
-## Files
-
-SPECIFICATION.md | INVARIANTS.md | THEORY_REGISTRY.md | BAYESIAN_LAYER.md | EXPERIMENTAL_LOOP.md
-
+**Policy:** Framework first, claims later.
 **Non-goal:** Categorical consciousness detector.
-**Next:** schemas, reference implementation, adversarial validation, preregistered pilots.
