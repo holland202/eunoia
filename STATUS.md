@@ -20,7 +20,11 @@
 | Constitutional geometry | Experimental | Object-bound certificates | Certificates do not generalize |
 | Token economics | Research | — | Baseline + treatment + cost + quality required |
 | Geometry–consciousness module | Research package (proposed) | Protocol + claim ledger + draft prereg | Layers separated; substrate claims NOT_SUPPORTED by B-layer success |
-| Eunoia integration | Proposed | This repository v0.1 + SWAY addendum | Foundational architecture only |
+| Core invariants (Γ/Θ/E, Evidence DAG, capability, verification budgets) | PROPOSED constraints | docs/invariants/CORE_INVARIANTS.md | Not verified by reference implementation yet |
+| Taxonomy-bounded support | PROPOSED | Support(C\|T,π); expansion → REQUIRES_REVERIFICATION | Do not auto-falsify prior support |
+| Verification resource scheduler | PROPOSAL Phase 0–4 | Per-request + epoch budgets; DEFER_RESOURCE_BUDGET | Identity not required for safety |
+| Capability = host-issued opaque token | PROPOSAL | UntrustedCode ↛ Capability | Rust privacy alone is insufficient |
+| Eunoia integration | Proposed | This repository v0.1 + refinements | Foundational architecture only |
 
 ## SWAY state (must not be collapsed)
 
@@ -40,3 +44,14 @@ Schema: `schemas/sway.schema.json`
 ## Founding principle (from SWAY self-application)
 
 > Detection creates evidence. It does not create authority.
+
+## Architecture refinements (proposed, not frozen as verified)
+
+See:
+- docs/invariants/CORE_INVARIANTS.md
+- docs/architecture/evidence_dag.md
+- docs/architecture/verification_resources.md
+- docs/architecture/capability_model.md
+- docs/architecture/constitutional_hierarchy.md
+
+Next executable target: Rust reference model of T→T' taxonomy expansion/taint with scheduler/resource-budget semantics included from the start.
