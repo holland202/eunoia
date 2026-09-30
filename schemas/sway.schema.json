@@ -2,18 +2,200 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eunoia.local/schemas/sway.schema.json",
   "title": "SWAYMethodState",
-  "description": "Machine-readable SWAY epistemic state. Must not encode OPEN items as RESOLVED.",
+  "description": "Machine-readable SWAY epistemic state. An observation may be RESOLVED, and a prediction may leave OPEN_UNRUN, only with an evidence reference (enforced below; tests/invariants/test_sway_state.py checks that the schema rejects the violation).",
   "type": "object",
-  "required": ["method", "version", "status", "items", "errata", "doors", "observations", "predictions", "failures"],
+  "required": [
+    "method",
+    "version",
+    "status",
+    "items",
+    "errata",
+    "doors",
+    "observations",
+    "predictions",
+    "failures"
+  ],
   "properties": {
-    "method": {"const": "SWAY"},
-    "version": {"const": "Amendment 1"},
-    "status": {"enum": ["ADOPTED"]},
+    "method": {
+      "const": "SWAY"
+    },
+    "version": {
+      "const": "Amendment 1"
+    },
+    "status": {
+      "enum": [
+        "ADOPTED"
+      ]
+    },
     "boundary_test": {
       "type": "object",
       "properties": {
-        "id": {"const": "SWAY_PROVISIONAL_CLASSIFICATION_TEST"},
-        "status": {"enum": ["DOOR"]}
+        "id": {
+          "const": "SWAY_PROVISIONAL_CLASSIFICATION_TEST"
+        },
+        "status": {
+          "enum": [
+            "DOOR"
+          ]
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status",
+          "failure_id"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ADOPTED",
+              "DOOR",
+              "WITHDRAWN"
+            ]
+          },
+          "failure_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "errata": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "CONFIRMED_NON_SUBSTANTIVE",
+              "CONFIRMED_SUBSTANTIVE",
+              "WITHDRAWN"
+            ]
+          }
+        }
+      }
+    },
+    "doors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ]
+      }
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "OPEN",
+              "RESOLVED"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "description": "commit, file or pasted-output reference that settles it"
+          }
+        },
+        "if": {
+          "properties": {
+            "status": {
+              "const": "RESOLVED"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "evidence"
+          ]
+        }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "OPEN_UNRUN",
+              "HELD",
+              "FAILED",
+              "VACUOUS",
+              "INSUFFICIENT_EVIDENCE",
+              "IMPLEMENTATION_ERROR",
+              "COULD_NOT_RUN_AS_REGISTERED",
+              "UNRESOLVED"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "description": "commit, file or pasted-output reference that settles it"
+          }
+        },
+        "if": {
+          "properties": {
+            "status": {
+              "not": {
+                "const": "OPEN_UNRUN"
+              }
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "evidence"
+          ]
+        }
+      }
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "class",
+          "source"
+        ]
       }
     }
   }

@@ -22,8 +22,14 @@ def test_status_required():
     assert not claim_is_well_formed({"statement": "x", "status": "PROVEN"})
 
 
-def test_forbidden_inflation_tokens():
-    forbidden = ["proves", "guarantees", "solves"]
-    sample = "This measurement is consistent with H under conditions C."
-    for w in forbidden:
-        assert w not in sample.lower()
+def test_every_status_in_sway_state_is_declared_vocabulary():
+    # Replaces test_forbidden_inflation_tokens, which scanned a hard-coded sample string and so could
+    # never fail on anything in the repository (a vacuous guard). This one reads the real state file.
+    import json, pathlib
+    root = pathlib.Path(__file__).resolve().parents[2]
+    state = json.loads((root / "research/sway/state.json").read_text())
+    method_states = {"ADOPTED", "DOOR", "WITHDRAWN", "PENDING", "CONFIRMED_NON_SUBSTANTIVE",
+                     "CONFIRMED_SUBSTANTIVE", "OPEN", "RESOLVED", "OPEN_UNRUN"}
+    found = {state["status"]} | {x["status"] for k in ("items", "errata", "observations", "predictions")
+                                 for x in state[k]}
+    assert found <= method_states | ALLOWED, found - (method_states | ALLOWED)

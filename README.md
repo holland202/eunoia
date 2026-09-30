@@ -1,5 +1,54 @@
 # Eunoia
 
+<!-- 30s-demo -->
+> **Status labels.** **SPECIFICATION / PROPOSAL:** almost all of this repository (architecture, protocols,
+> the consciousness module, the geometry protocol). **PROTOTYPE:** two small SWAY helpers and the checks
+> below. **NOT PRODUCTION-READY:** all of it. Nothing here is autonomous or runs a model.
+
+**Headline (measured):** there is no empirical result in this repository yet, and it says so. What is
+measured is that its own guards can fail: on 2026-09-30 the SWAY state schema accepted 3 of 4 "settled
+without evidence" mutants. It now rejects all 4. The exact-threshold helper had returned the wrong answer
+for `0.3 − 0.1 ≥ 0.2`; floats are now refused. See [STATUS.md](STATUS.md).
+
+### 30-second demo: PROTOTYPE
+
+```bash
+git clone https://github.com/holland202/eunoia && cd eunoia
+pip install pytest jsonschema && python -m pytest -q && python research/sway/implementation/exact_threshold.py
+```
+
+Output (x86_64, Python 3.11, 2026-09-30):
+
+```
+...............                                                          [100%]
+15 passed in 0.12s
+float: 0.050000000000000044 <= 0.05 -> False
+exact: 1/20 inclusive -> True
+```
+
+The last two lines are the C006b bug in one line each: in floats, a change of exactly 0.05 fails a
+"≤ 0.05" bound; in exact arithmetic it passes.
+
+```mermaid
+flowchart LR
+  O[Observation] --> E{Evidence<br/>sufficient?}
+  E -->|no| D[DEFER]
+  E -->|yes| A{Authority<br/>for this action?}
+  A -->|no| R[REFUSE]
+  A -->|yes| X[Execute] --> V{Verified?}
+  V -->|no| N[Do not promote]
+  V -->|yes| S[Attest, update state]
+```
+
+### Why this is not just sovereign-veritas again
+
+sovereign-veritas is the implemented gate over records. This repository is the architecture *around* it:
+the claim vocabulary, the authority model, and the research protocols. It is mostly specification, and
+it is labelled that way. Where it overlaps with the gate, the gate's measured limits apply: CONSISTENT is
+not TRUE.
+<!-- /30s-demo -->
+
+
 **εὔνοια** — good will, beautiful thinking, benevolent disposition.
 
 **Technical interpretation:**
