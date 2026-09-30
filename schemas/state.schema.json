@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eunoia.local/schemas/state.schema.json",
+  "title": "EunoiaState",
+  "description": "Conceptual operational state snapshot. v0.1 — provisional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "objective", "evidence_ids", "authority", "resource_budget", "verification_state"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "0.1" },
+    "objective": { "type": "string" },
+    "world_model": { "type": "object" },
+    "known_information": { "type": "array", "items": { "type": "string" } },
+    "unknown_information": { "type": "array", "items": { "type": "string" } },
+    "evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "active_constraints": { "type": "array", "items": { "type": "string" } },
+    "authority": { "type": "object" },
+    "available_capabilities": { "type": "array", "items": { "type": "string" } },
+    "candidate_plans": { "type": "array", "items": { "type": "object" } },
+    "resource_budget": {
+      "type": "object",
+      "properties": {
+        "tokens_remaining": { "type": "number" },
+        "latency_budget_ms": { "type": "number" },
+        "thermal_headroom": { "type": ["number", "null"] },
+        "model_calls_remaining": { "type": "number" },
+        "network_allowed": { "type": "boolean" }
+      }
+    },
+    "uncertainty": { "type": "object" },
+    "verification_state": { "type": "string" },
+    "telemetry": { "type": "object" },
+    "attestation_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eunoia.local/schemas/attestation.schema.json",
+  "title": "EunoiaAttestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "timestamp", "subject", "outcome"],
+  "properties": {
+    "id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "subject": { "type": "string" },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "decision": { "type": "string", "enum": ["ALLOW", "DEFER", "REFUSE", "N/A"] },
+    "outcome": { "type": "string" },
+    "verification_state": { "type": "string" },
+    "actor": { "type": "string" },
+    "resource_usage": { "type": "object" },
+    "prev_attestation_id": { "type": "string" }
+  }
+}

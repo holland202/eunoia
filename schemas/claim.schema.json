@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eunoia.local/schemas/claim.schema.json",
+  "title": "EunoiaClaim",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "statement", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "statement": { "type": "string" },
+    "scope": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "FACT", "MEASURED", "DERIVED", "IMPLEMENTED", "HYPOTHESIS",
+        "PROPOSAL", "SPECULATIVE", "UNKNOWN", "REFUTED",
+        "INSUFFICIENT_EVIDENCE", "NOT_SUPPORTED", "EXPLORATORY", "PROPOSED"
+      ]
+    },
+    "support": { "type": "array", "items": { "type": "string" } },
+    "counter": { "type": "array", "items": { "type": "string" } },
+    "axes": {
+      "type": "object",
+      "properties": {
+        "mathematical": { "type": "string", "enum": ["PASS", "FAIL", "NOT_ASSESSED"] },
+        "implementation": { "type": "string", "enum": ["PASS", "FAIL", "NOT_ASSESSED"] },
+        "empirical": { "type": "string", "enum": ["PASS", "FAIL", "NOT_ASSESSED"] }
+      }
+    },
+    "registered_prediction_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

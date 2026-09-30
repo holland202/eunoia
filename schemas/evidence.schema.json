@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eunoia.local/schemas/evidence.schema.json",
+  "title": "EunoiaEvidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "status", "created_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["OBSERVATION", "MEASUREMENT", "DERIVATION", "REFUTATION", "REPLICATION", "VERIFICATION", "ATTESTATION"]
+    },
+    "status": { "type": "string", "enum": ["ADMITTED", "REJECTED", "PENDING"] },
+    "payload_hash": { "type": "string" },
+    "source": { "type": "string" },
+    "procedure": { "type": "string" },
+    "environment": { "type": "string" },
+    "parameters": { "type": "object" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "attestation_id": { "type": "string" }
+  }
+}
