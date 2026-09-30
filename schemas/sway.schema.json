@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eunoia.local/schemas/sway.schema.json",
+  "title": "SWAYMethodState",
+  "description": "Machine-readable SWAY epistemic state. Must not encode OPEN items as RESOLVED.",
+  "type": "object",
+  "required": ["method", "version", "status", "items", "errata", "doors", "observations", "predictions", "failures"],
+  "properties": {
+    "method": {"const": "SWAY"},
+    "version": {"const": "Amendment 1"},
+    "status": {"enum": ["ADOPTED"]},
+    "boundary_test": {
+      "type": "object",
+      "properties": {
+        "id": {"const": "SWAY_PROVISIONAL_CLASSIFICATION_TEST"},
+        "status": {"enum": ["DOOR"]}
+      }
+    }
+  }
+}
