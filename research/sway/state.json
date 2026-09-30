@@ -1,0 +1,47 @@
+{
+  "method": "SWAY",
+  "version": "Amendment 1",
+  "status": "ADOPTED",
+  "base_commit": "a8e846b",
+  "base_md5": "9ecb353b393c32ea874ff3ac9f1efd60",
+  "items": [
+    {"id": 1, "title": "Pre-freeze feasibility count", "status": "ADOPTED", "failure_id": "incident-1"},
+    {"id": 2, "title": "Reachable vacuity guard", "status": "ADOPTED", "failure_id": "incident-2"},
+    {"id": 3, "title": "Exact thresholds", "status": "ADOPTED", "failure_id": "incident-3"},
+    {"id": 4, "title": "Same-input noise", "status": "ADOPTED", "failure_id": "incident-4"},
+    {"id": 5, "title": "Required simplest rival", "status": "ADOPTED", "failure_id": "incident-5"},
+    {"id": 6, "title": "Three validity axes", "status": "ADOPTED", "failure_id": "incident-6"},
+    {"id": 7, "title": "Outcome vocabulary", "status": "ADOPTED", "failure_id": "incident-3"},
+    {"id": 8, "title": "Replication levels", "status": "ADOPTED", "failure_id": "incident-7"},
+    {"id": 9, "title": "Wording correction", "status": "ADOPTED", "failure_id": "wording"}
+  ],
+  "errata": [
+    {"id": "E2", "status": "CONFIRMED_NON_SUBSTANTIVE"},
+    {"id": "E1", "status": "PENDING"}
+  ],
+  "doors": [
+    {"id": "boundary_test", "description": "Erratum vs amendment provisional classification test"},
+    {"id": "O1.1_scope_clause", "description": "Scope clause for items 1 and 4 over prediction-shaped registrations"},
+    {"id": "O1.2_denominator", "description": "Denominator requirement for count predictions"},
+    {"id": "O1.3_unit", "description": "Unit declaration for class-counts"}
+  ],
+  "observations": [
+    {"id": "O1", "status": "OPEN", "components": ["O1.1 scope", "O1.2 denominator", "O1.3 unit"]}
+  ],
+  "predictions": [
+    {"id": "P5", "status": "OPEN_UNRUN", "as_registered": "X <= 1 targeted failures (F1-F5) in next 5 registrations; historical reference 5 in week before Amendment 1"}
+  ],
+  "failures": [
+    {"id": "incident-1", "class": "F1", "source": "veritas-companion C006"},
+    {"id": "incident-2", "class": "F2", "source": "veritas-companion C006b P1"},
+    {"id": "incident-3", "class": "F3", "source": "veritas-companion C006b P3"},
+    {"id": "incident-4", "class": "F4", "source": "C006b A1/A2/A3"},
+    {"id": "incident-5", "class": "F5", "source": "C002 N1 / token-veritas / veritas-holo E002"},
+    {"id": "incident-6", "class": "F6", "source": "sovereign-veritas issue #4"},
+    {"id": "incident-7", "class": "F7", "source": "sovereign-veritas issue #4 B10"}
+  ],
+  "boundary_test": {
+    "id": "SWAY_PROVISIONAL_CLASSIFICATION_TEST",
+    "status": "DOOR"
+  }
+}
