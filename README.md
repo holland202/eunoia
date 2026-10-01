@@ -125,6 +125,10 @@ Failure paths: INSUFFICIENT EVIDENCE → DEFER | UNAUTHORIZED → REFUSE | UNSAF
 
 See [STATUS.md](STATUS.md).
 
+## Next executable target: v0.01 substrate
+
+A deliberately small set of contracts that make the observation → evidence → claim → verification → authorization → decision chain explicit and inspectable. Skeleton package layout lives under `src/eunoia/`. Full design notes: [docs/DESIGN_NOTES.md](docs/DESIGN_NOTES.md). Consolidation and migration rules: [docs/migration/](docs/migration/).
+
 ## Epistemic policy (summary)
 
 Every claim must carry an identifiable epistemic status: FACT · MEASURED · DERIVED · IMPLEMENTED · HYPOTHESIS · PROPOSAL · SPECULATIVE · UNKNOWN · REFUTED
@@ -133,7 +137,7 @@ Full policy: [EPISTEMIC_POLICY.md](EPISTEMIC_POLICY.md)
 
 ## Version
 
-**Eunoia v0.1 — Foundational Architecture**
+**Eunoia v0.1 — Foundational Architecture** (v0.01 substrate planned)
 
 No scientific claim is promoted beyond its documented evidence status.
 
