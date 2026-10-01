@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eunoia"
+version = "0.01.0-dev"
+description = "Evidence-bounded architecture for autonomous intelligence (research prototype)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "All rights reserved until a license is adopted" }
+authors = [
+    { name = "Chad Edward Holland" },
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest", "jsonschema"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
