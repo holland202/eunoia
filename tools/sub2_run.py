@@ -27,7 +27,8 @@ from oracle import OracleGate  # noqa: E402
 
 SABOTAGE = "--sabotage" in sys.argv
 SUB1 = "fb5194a"
-RECORDED = None  # pinned after the registered run: (held tuple, digest)
+RECORDED = (("P1", "P2", "P3", "P4", "P5"),
+            "2c04d80e5dd249cce1c578a6d825fb38965c21f0570fa8c2cdec307e3f5a8e87")  # registered run, 7220163
 
 # SUB-1's mutant edits, byte-identical (tools/sub1_run.py at fb5194a). Each is applied to whichever of
 # FILES holds its anchor; the anchor must occur exactly once across both.
@@ -53,7 +54,8 @@ MUTANTS = {
 def sub1_src():
     tmp = pathlib.Path(tempfile.mkdtemp())
     data = subprocess.run(["git", "archive", SUB1, "src"], cwd=ROOT, capture_output=True, check=True).stdout
-    tarfile.open(fileobj=io.BytesIO(data)).extractall(tmp)
+    with tarfile.open(fileobj=io.BytesIO(data)) as tf:
+        tf.extractall(tmp, **({"filter": "data"} if hasattr(tarfile, "data_filter") else {}))
     return tmp / "src"
 
 

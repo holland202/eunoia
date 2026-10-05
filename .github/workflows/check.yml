@@ -18,8 +18,17 @@ jobs:
       - run: python -m pytest -q
       - run: python research/sway/implementation/exact_threshold.py
       - run: python research/sway/implementation/noise.py
-      - name: SUB-1 harness reproduces the recorded verdict and digest
-        run: python tools/sub1_run.py
-      - name: SUB-1 sabotage (gate replaced by the rival) must exit 1
+      - name: SUB-1 harness at its pinned commit reproduces the recorded verdict and digest
         run: |
-          if python tools/sub1_run.py --sabotage; then echo "sabotage exited 0"; exit 1; fi
+          git worktree add ../sub1 fb5194a
+          cd ../sub1 && python tools/sub1_run.py
+      - name: SUB-1 sabotage at its pinned commit must exit 1
+        run: |
+          cd ../sub1 && if python tools/sub1_run.py --sabotage; then echo "sabotage exited 0"; exit 1; fi
+      - name: SUB-2 detector finds no decision rule in src
+        run: python tools/sub2_no_rules.py src
+      - name: SUB-2 harness reproduces the recorded verdict and digest
+        run: python tools/sub2_run.py
+      - name: SUB-2 sabotage (detector pointed at SUB-1 src) must exit 1
+        run: |
+          if python tools/sub2_run.py --sabotage; then echo "sabotage exited 0"; exit 1; fi
