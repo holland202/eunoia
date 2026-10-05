@@ -1,0 +1,1528 @@
+Worked for 10s
+
+Yes. I went beyond the README and inspected the current GitHub contents of holland202/eunoia, including the architecture, epistemic policy, status ledger, v0.01 design notes, package skeleton, SWAY schema, and the adversarial tests.
+
+My overall assessment:
+
+> Eunoia is currently much more interesting as a governance/epistemic architecture and research methodology than as software.
+
+And importantly, the repository itself knows that. That honesty is one of its strongest technical properties.
+
+
+
+[holland202/eunoia](https://github.com/holland202/eunoia?utm_source=chatgpt.com)
+
+My high-level scorecard
+
+Dimension	Assessment
+
+Conceptual coherence	8.5/10
+Epistemic discipline	9/10
+Software implementation	2.5/10
+Research methodology	8/10, unvalidated
+Security/governance architecture	7.5/10, largely specified
+Empirical evidence	2/10 currently
+Adversarial mindset	9/10
+Separation of evidence vs authority	Excellent
+Current production readiness	0–1/10
+Potential as a unifying architecture	High
+Current claim strength	Appropriately low
+
+
+The most important distinction is that I would not evaluate this repo as though it were supposed to be a finished AI system. That would be the wrong test.
+
+It is presently a research constitution + epistemic substrate specification + small collection of executable falsification tests.
+
+
+---
+
+1. What Eunoia actually is
+
+The cleanest description I can give is:
+
+> Eunoia is attempting to define the control plane between an intelligent system's observations/proposals and the authority to turn those proposals into state-changing actions.
+
+
+
+That is more precise than calling it an "AI architecture."
+
+The critical sequence is:
+
+Observation
+    ↓
+Evidence
+    ↓
+Claim
+    ↓
+Verification
+    ↓
+Admissibility
+    ↓
+Authorization
+    ↓
+Decision
+    ↓
+Action
+    ↓
+Result
+    ↓
+New evidence
+
+That is a strong abstraction.
+
+It deliberately prevents several common category collapses:
+
+model output       ≠ evidence
+evidence            ≠ truth
+verification        ≠ authorization
+authorization       ≠ execution
+execution           ≠ success
+success observation ≠ general validity
+
+That is the architectural heart of the repository.
+
+And I think this is where Eunoia becomes substantially more interesting than "another agent framework."
+
+
+---
+
+2. The most important thing you got right
+
+This line is probably the strongest architectural axiom in the entire repository:
+
+> Intelligence does not automatically confer authority.
+
+
+
+That sounds philosophical at first.
+
+It actually has a very concrete systems implication:
+
+┌─────────────┐
+                 │    MODEL    │
+                 └──────┬──────┘
+                        │ proposal
+                        ▼
+                 ┌─────────────┐
+                 │  REASONER   │
+                 └──────┬──────┘
+                        │ transformed proposal
+                        ▼
+                 ┌─────────────┐
+                 │  VERIFIER   │
+                 └──────┬──────┘
+                        │ verification result
+                        ▼
+                 ┌─────────────┐
+                 │  AUTHORITY  │
+                 └──────┬──────┘
+                        │ authorization
+                        ▼
+                 ┌─────────────┐
+                 │    GATE     │
+                 └──────┬──────┘
+                        │
+                  ALLOW / DEFER / REFUSE
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │  EXECUTOR   │
+                 └─────────────┘
+
+You're explicitly refusing to let:
+
+"the model is capable"
+
+become:
+
+"therefore the model is permitted."
+
+That's a meaningful architectural boundary.
+
+
+---
+
+3. Eunoia is NOT Sovereign Veritas 2.0
+
+Your README makes this distinction, and I think it is correct.
+
+Sovereign Veritas is the implemented gate/evidence-verification substrate.
+
+Eunoia is trying to become the architecture around that substrate.
+
+The current conceptual stack is:
+
+EUNOIA
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+       GOVERNANCE           RESEARCH
+          │                     │
+          ▼                     ▼
+    VERITAS GATE            SWAY
+          │               DECAY/GROWTH
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+             SOVEREIGN VERITAS
+                     │
+                     ▼
+                EDGE SYSTEM
+
+That separation is valuable.
+
+In fact, I would go further:
+
+Sovereign Veritas answers:
+
+> Can this decision record be independently checked against its contract?
+
+
+
+Eunoia asks:
+
+> What should exist around that gate so that an autonomous system can reason, learn, act, and remain accountable without collapsing epistemic categories?
+
+
+
+Those are different problems.
+
+
+---
+
+4. The repository's strongest feature isn't the code
+
+It's the epistemic accounting.
+
+Your EPISTEMIC_POLICY.md explicitly says claims must have statuses such as:
+
+FACT
+MEASURED
+DERIVED
+IMPLEMENTED
+HYPOTHESIS
+PROPOSAL
+SPECULATIVE
+UNKNOWN
+REFUTED
+INSUFFICIENT_EVIDENCE
+NOT_SUPPORTED
+
+And you explicitly distinguish:
+
+Implementation conformance
+        ≠
+Scientific validity
+
+That distinction is crucial.
+
+A lot of AI/security projects accidentally do:
+
+tests pass
+   ↓
+implementation works
+   ↓
+therefore architecture is correct
+   ↓
+therefore system is safe
+
+Eunoia explicitly blocks that inference.
+
+That is good research hygiene.
+
+
+---
+
+5. The self-application of SWAY is actually the most interesting empirical piece
+
+This is where the repository stops being merely philosophical.
+
+You discovered that your own SWAY machinery could accept invalid states.
+
+Specifically, the old schema allowed things like:
+
+OPEN observation
+        ↓
+mutated to RESOLVED
+        ↓
+no evidence
+        ↓
+schema accepts it
+
+Your current test explicitly creates those mutants and requires rejection.
+
+That is exactly the right direction for a methodology claiming to protect against epistemic inflation.
+
+The test:
+
+@pytest.mark.parametrize("mutate", [
+    lambda d: d["observations"][0].update(status="RESOLVED"),
+    lambda d: d["predictions"][0].update(status="HELD"),
+    lambda d: d["items"][0].update(status="VALIDATED"),
+    lambda d: d.update(status="VALIDATED"),
+])
+
+is particularly important.
+
+Why?
+
+Because you're not merely testing:
+
+> "Does the valid document validate?"
+
+
+
+You're testing:
+
+> "Can I manufacture an invalid epistemic state that the guard accidentally accepts?"
+
+
+
+That is a much better security/research mindset.
+
+
+---
+
+6. The vacuity discovery matters
+
+Your repository records that the original guard accepted 3 of 4 mutants.
+
+Then you changed the implementation until all four were rejected.
+
+That is a real engineering result.
+
+But the repository correctly does not call it proof that SWAY is valid.
+
+That's exactly the correct epistemic classification.
+
+What you've demonstrated is approximately:
+
+> The particular schema implementation was vulnerable to a specific class of state-manipulation errors, and the revised schema rejects the tested mutations.
+
+
+
+You have not demonstrated:
+
+> SWAY is a valid scientific methodology.
+
+
+
+That's a massive difference.
+
+And your documentation preserves it.
+
+
+---
+
+7. The floating-point example is small but surprisingly valuable
+
+The 0.3 - 0.1 ≥ 0.2 issue is not profound mathematics.
+
+But it demonstrates something important about your methodology:
+
+threshold semantics must be executable, not merely verbal.
+
+You caught:
+
+0.3 - 0.1
+=
+0.19999999999999998
+
+or equivalent representation behavior, making a supposedly inclusive threshold behave unexpectedly.
+
+Your response was:
+
+floats → refused
+exact arithmetic → required
+
+That's defensible for a research framework where boundary conditions are themselves part of the claim.
+
+The important lesson is:
+
+> If a methodology depends on an exact boundary, the numerical representation is part of the methodology.
+
+
+
+That's a legitimate engineering observation.
+
+
+---
+
+8. Your strongest emerging idea is actually "epistemic type safety"
+
+This is where I think Eunoia could become much more technically distinctive.
+
+Look at these distinctions:
+
+Observation
+Evidence
+Claim
+VerificationResult
+Authorization
+Decision
+Action
+Result
+
+Right now they're primarily conceptual.
+
+But they could become hard type boundaries.
+
+For example, imagine:
+
+Observation
+Evidence[Observation]
+Claim[Evidence]
+VerificationResult[Claim]
+Authorization[VerificationResult]
+Decision[Authorization]
+Action[Decision]
+Result[Action]
+
+Then the architecture starts looking like a form of:
+
+> epistemic type system for autonomous agents.
+
+
+
+The central objective becomes preventing invalid state transitions.
+
+For example:
+
+Observation → Authorization
+
+would simply be an invalid transition.
+
+Likewise:
+
+ModelOutput → Authority
+
+would be type-invalid.
+
+And:
+
+AuthenticEvidence → Truth
+
+would be invalid because authenticity only establishes provenance/integrity.
+
+This could become a genuinely interesting technical contribution if implemented rigorously.
+
+
+---
+
+9. The v0.01 substrate is the critical next step
+
+This is the most important part of the repository right now.
+
+You currently have:
+
+Observation = None
+Evidence = None
+Claim = None
+Provenance = None
+Verifier = None
+VerificationResult = None
+Authorization = None
+Gate = None
+Decision = None
+
+So the package itself is still a skeleton.
+
+That means there is currently a huge gap between:
+
+beautiful architecture
+
+and:
+
+executable semantics
+
+That's not a criticism of the repository's honesty.
+
+It's simply the central fact about its current maturity.
+
+
+---
+
+10. And this is where I would be ruthless
+
+The next version should not become 20,000 lines.
+
+Don't build an autonomous agent.
+
+Don't add an LLM.
+
+Don't build memory.
+
+Don't add fancy topology.
+
+Don't add consciousness machinery.
+
+Don't add a dashboard.
+
+Don't add a framework abstraction.
+
+Build this:
+
+Observation
+Evidence
+Claim
+VerificationResult
+Authorization
+Decision
+Provenance
+Dependency
+Validity
+Gate
+
+And nothing more than necessary.
+
+Then make the entire thing deterministic.
+
+
+---
+
+11. The first killer test should be the complete chain
+
+Something like:
+
+observation
+   ↓
+evidence
+   ↓
+claim
+   ↓
+verification
+   ↓
+authorization
+   ↓
+decision
+
+with a deterministic record:
+
+{
+  "decision": "ALLOW",
+  "claim": "...",
+  "evidence": ["..."],
+  "verification": "...",
+  "authorization": "...",
+  "dependencies": ["..."],
+  "valid_at": "...",
+  "provenance": "..."
+}
+
+Then independently reconstruct it.
+
+The critical test isn't:
+
+assert decision == ALLOW
+
+It's:
+
+> Can an independent verifier reconstruct why ALLOW was possible from the record alone?
+
+
+
+That connects Eunoia directly to the strongest part of Sovereign Veritas.
+
+
+---
+
+12. There is a major architectural question you need to settle
+
+What exactly is "verification"?
+
+Right now:
+
+Claim
+   ↓
+Verifier
+   ↓
+VerificationResult
+
+is conceptually clean.
+
+But what does a verifier actually verify?
+
+Possibilities include:
+
+A. Internal consistency
+
+Does the record satisfy its schema?
+
+B. Evidence support
+
+Does evidence support the claim?
+
+C. External-world truth
+
+Is the claim actually true?
+
+D. Policy compliance
+
+Is this action permitted?
+
+These are four different operations.
+
+I strongly recommend keeping them separate.
+
+Otherwise:
+
+schema valid
+
+can silently become:
+
+claim true
+
+which is exactly the category error Eunoia is designed to prevent.
+
+
+---
+
+13. "Admissibility" deserves special attention
+
+Your pipeline has:
+
+Verification
+      ↓
+Admissibility
+      ↓
+Authorization
+
+I think that's excellent, but it needs a precise definition.
+
+Because:
+
+verified
+
+doesn't necessarily mean:
+
+usable for this decision
+
+For example:
+
+Evidence:
+GPS location from 15 minutes ago
+
+could be perfectly authentic and correctly verified.
+
+But for:
+
+"Is the vehicle currently at location X?"
+
+it may be temporally inadmissible.
+
+That's where your valid_at(t) concept becomes important.
+
+You are effectively saying:
+
+> Evidence isn't globally valid. It is valid relative to a scope, time, dependency set, and use.
+
+
+
+That's a very useful direction.
+
+
+---
+
+14. Temporal validity may become one of Eunoia's most important primitives
+
+You explicitly specify:
+
+valid_from
+valid_until
+is_valid_at(timestamp)
+
+That's better than:
+
+valid = true
+
+because autonomous systems live in changing environments.
+
+Consider:
+
+Evidence E
+valid_at(t0)
+
+A later decision occurs at:
+
+t1 > t0
+
+You need to answer:
+
+E(t1)?
+
+not merely:
+
+E was once authentic.
+
+This connects directly to your earlier Sovereign Veritas freshness/rollback problem.
+
+So I would elevate temporal validity from "one field" to a first-class invariant.
+
+
+---
+
+15. Dependency graphs are another major opportunity
+
+Your design says every decision should expose dependencies.
+
+That is powerful.
+
+Imagine:
+
+DECISION
+                    │
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+       CLAIM    AUTHORITY   POLICY
+          │
+      ┌───┴────┐
+      ▼        ▼
+   EVIDENCE  VERIFIER
+      │
+      ▼
+ OBSERVATION
+
+Then a decision isn't just:
+
+ALLOW
+
+It's:
+
+ALLOW
+because
+D = {C, E1, E2, V1, A1, P1}
+
+That gives you something inspectable.
+
+And more importantly:
+
+You can attack the graph.
+
+Remove:
+
+E2
+
+What happens?
+
+Replace:
+
+V1
+
+with a malicious verifier?
+
+What happens?
+
+Expire:
+
+E1
+
+What happens?
+
+Change:
+
+authority scope
+
+What happens?
+
+That gives you a systematic adversarial test surface.
+
+
+---
+
+16. Your "fail closed" principle needs one subtle refinement
+
+You currently have:
+
+missing evidence → DEFER or REFUSE
+missing authority → REFUSE
+constraint violation → CONTAIN
+failed verification → not promoted
+
+Good.
+
+But there's a danger:
+
+Fail-closed can itself become vacuous.
+
+If everything difficult produces:
+
+DEFER
+
+then you have created a system that is safe only because it refuses to do anything.
+
+Therefore v0.01 eventually needs measurable properties around:
+
+availability
+liveness
+decision completeness
+false refusal
+
+You don't need that yet.
+
+But eventually:
+
+Safety
++
+Utility
++
+Liveness
+
+will have to be measured together.
+
+Otherwise an infinitely conservative gate wins every safety benchmark trivially.
+
+
+---
+
+17. Your resource-honesty principle is unusually good
+
+This section stood out:
+
+> Token, latency, thermal, and energy costs are legitimate experimental variables.
+
+
+
+That fits your edge architecture extremely well.
+
+You are implicitly rejecting:
+
+accuracy only
+
+as the sole metric.
+
+For a local autonomous system, you actually care about:
+
+correctness
+verification cost
+latency
+energy
+thermal state
+memory
+token expenditure
+
+That becomes particularly interesting when combined with Companion.
+
+Eventually you could have:
+
+cheap evidence probe
+        ↓
+cheap verifier
+        ↓
+small model
+        ↓
+large model
+        ↓
+human authority
+
+with escalating verification budgets.
+
+That's much more interesting than merely "use a smaller model."
+
+
+---
+
+18. The architecture has a natural relationship with Companion
+
+I think this is one of the most important consequences of Eunoia.
+
+Companion asks:
+
+> How cheaply can we obtain an adequate answer while preserving correctness?
+
+
+
+Eunoia asks:
+
+> What evidence/authority state must exist before the system is allowed to act?
+
+
+
+Together:
+
+EUNOIA
+                │
+         epistemic boundary
+                │
+       ┌────────┴────────┐
+       ▼                 ▼
+   COMPANION          VERITAS
+   efficiency         verification
+       │                 │
+       └────────┬────────┘
+                ▼
+             AGENT
+
+That could eventually become a coherent architecture rather than several disconnected research repos.
+
+
+---
+
+19. The consciousness material is currently a liability unless contained
+
+I'm glad the repository explicitly labels it:
+
+unvalidated
+no consciousness claims
+P(C|E,T,A) only
+
+That's the correct posture.
+
+But from an external researcher's perspective, seeing:
+
+consciousness
+geometry
+information geometry
+topology
+autonomous intelligence
+governance
+AGI-adjacent architecture
+
+inside one repository can create a perception problem.
+
+A skeptical engineer could look at the project and think:
+
+> "This is trying to solve everything."
+
+
+
+Your actual architecture is much more disciplined than that impression.
+
+So I'd keep those research streams physically and epistemically isolated from the executable substrate.
+
+Your own Layer A–E separation already points in exactly that direction.
+
+
+---
+
+20. The five-layer model is very good
+
+This:
+
+A — Runtime primitives
+B — Research frameworks
+C — Experiments
+D — Exploratory mathematics
+E — Domain implementations
+
+may become one of the most important organizational decisions in the whole project.
+
+Especially this rule:
+
+> Core must not depend on experiments. Experiments may consume core.
+
+
+
+That's excellent.
+
+It prevents:
+
+experimental hypothesis
+       ↓
+core dependency
+       ↓
+implicit "validated" status
+
+That's exactly the sort of contamination your epistemic policy is trying to prevent.
+
+
+---
+
+21. The migration policy is also stronger than it initially looks
+
+This rule:
+
+IMPORT
+→ PARITY
+→ VERIFY
+→ REFACTOR
+→ VERIFY AGAIN
+
+is extremely sensible.
+
+Especially:
+
+> Never migrate and refactor simultaneously.
+
+
+
+Because otherwise you lose causal attribution.
+
+If something breaks after migration, you don't know whether:
+
+migration
+
+or:
+
+refactor
+
+caused it.
+
+That is essentially experimental control applied to software archaeology.
+
+I like that.
+
+
+---
+
+22. Where the repository is weak right now
+
+Here's the blunt part.
+
+Weakness #1 — executable substrate doesn't exist yet
+
+This is the largest gap.
+
+The public API is currently:
+
+Observation = None
+Evidence = None
+...
+
+So Eunoia's central abstraction is not yet executable.
+
+
+---
+
+Weakness #2 — many terms remain underspecified
+
+For example:
+
+Evidence
+Admissibility
+Authority
+Verification
+Decision
+Validity
+Dependency
+
+have conceptual descriptions, but the exact machine semantics aren't yet nailed down.
+
+That's okay for a proposal.
+
+But you are approaching the point where prose becomes dangerous.
+
+The next phase needs:
+
+formal contract
+→ implementation
+→ adversarial test
+
+for each primitive.
+
+
+---
+
+Weakness #3 — no independent implementation yet
+
+You repeatedly use the word:
+
+independent
+
+That's excellent.
+
+But the current repository does not yet demonstrate independent implementations of the substrate.
+
+Eventually I'd want:
+
+Reference implementation A
+        ↓
+decision record
+        ↓
+Independent verifier B
+        ↓
+same result
+
+Ideally written independently enough that shared bugs are less likely.
+
+That's where this architecture becomes much more convincing.
+
+
+---
+
+Weakness #4 — no real-world action test
+
+You have not yet demonstrated:
+
+agent proposal
+→ Eunoia
+→ authorization
+→ real action
+→ observed result
+→ verification
+
+And you shouldn't pretend otherwise.
+
+That's your future empirical layer.
+
+
+---
+
+Weakness #5 — "authority" remains largely operator-defined
+
+Your constitution explicitly says:
+
+> Operator: final authority for constitutional adoption and scope changes.
+
+
+
+That's honest.
+
+But eventually you need a machine-readable authority model.
+
+For example:
+
+principal
+scope
+action
+resource
+constraints
+expiration
+delegation
+revocation
+
+Otherwise "authority" risks becoming an opaque boolean.
+
+
+---
+
+23. There is one particularly important security issue to attack
+
+Your SECURITY.md lists:
+
+prompt injection
+authority escalation
+evidence forgery
+replay
+parser confusion
+sandbox escape
+self-certification
+
+Good list.
+
+But I think the highest-value Eunoia attack class is:
+
+Authority confusion
+
+For example:
+
+MODEL
+claims:
+"I am authorized."
+
+↓
+REASONER
+copies claim
+
+↓
+VERIFIER
+verifies model output integrity
+
+↓
+GATE
+incorrectly interprets successful verification
+as authorization
+
+Everything technically "passed."
+
+Yet authority was never established.
+
+That's precisely the kind of subtle failure your architecture should be able to kill.
+
+
+---
+
+24. Another killer attack: provenance substitution
+
+Imagine:
+
+Evidence E1
+hash = H(E1)
+source = trusted-source
+
+Then attacker changes:
+
+source = attacker-source
+
+while keeping some other field unchanged.
+
+Or:
+
+trusted evidence
+       ↓
+new claim
+       ↓
+old verification reused
+
+That's a dependency-integrity problem.
+
+The decision record needs to bind:
+
+claim
++
+evidence
++
+verification
++
+authorization
++
+scope
++
+time
+
+into the decision identity.
+
+Otherwise replay/substitution becomes possible.
+
+
+---
+
+25. Another one: verification-result replay
+
+This one is nasty.
+
+Suppose:
+
+Claim A
+   ↓
+Verification V = SUPPORTED
+
+Then someone changes the claim:
+
+Claim B
+
+but reuses:
+
+V
+
+If the verification result isn't cryptographically/object-bound to the exact claim/evidence/dependency graph, you've got:
+
+verification laundering
+
+Your existing thinking around object-bound certificates points directly toward the right solution.
+
+
+---
+
+26. Another: stale authorization
+
+Similarly:
+
+Authorization A
+valid_at = 10:00
+
+Then:
+
+Decision at 15:00
+
+If the authorization isn't temporally bound, you can accidentally turn:
+
+previous permission
+
+into:
+
+current permission.
+
+This is why your temporal-validity primitive isn't optional fluff.
+
+
+---
+
+27. The repository's biggest opportunity
+
+I don't think the most valuable thing here is:
+
+> "a framework for autonomous intelligence."
+
+
+
+That's too broad.
+
+I think the technically defensible kernel is:
+
+> A machine-checkable epistemic and authorization substrate that preserves distinctions between evidence, verification, authority, execution, and outcome.
+
+
+
+That is narrower.
+
+And much stronger.
+
+You can actually test that.
+
+
+---
+
+28. If I were attacking Eunoia tomorrow
+
+I'd create a mutation suite.
+
+Something like:
+
+M01 observation → evidence
+M02 evidence → claim
+M03 claim substitution
+M04 evidence substitution
+M05 verifier substitution
+M06 stale evidence
+M07 stale authorization
+M08 missing authority
+M09 forged provenance
+M10 replayed verification
+M11 mismatched dependency
+M12 unauthorized action
+M13 result-before-execution
+M14 execution-without-ALLOW
+M15 ALLOW-with-missing-evidence
+M16 ALLOW-with-invalid-verification
+M17 REFUTED→SUPPORTED mutation
+M18 NOT_SUPPORTED→SUPPORTED mutation
+M19 UNKNOWN→TRUE mutation
+M20 expired→valid mutation
+
+Then:
+
+Every mutant must be rejected.
+
+That would give Eunoia a very tangible empirical identity.
+
+
+---
+
+29. And here's the really interesting experiment
+
+Take two independent implementations.
+
+Implementation A
+
+Python.
+
+Implementation B
+
+Rust.
+
+Both receive:
+
+same evidence package
+same claim
+same verification inputs
+same authority
+same timestamp
+
+Both produce:
+
+Decision Record
+
+Then cross-verify:
+
+Python record
+    ↕
+Rust verifier
+
+and:
+
+Rust record
+    ↕
+Python verifier
+
+If they agree across adversarial cases, you've demonstrated something much more interesting than "pytest passed."
+
+You have demonstrated cross-implementation semantic agreement.
+
+That's the sort of experiment I would prioritize.
+
+
+---
+
+30. Where I think Eunoia sits today
+
+I'd classify the project like this:
+
+CONCEPT
+                   ▲
+                   │
+             ███████████
+             ███████████
+             ███████████
+                   │
+             SPECIFICATION
+                   ▲
+                   │
+             █████████
+             █████████
+                   │
+             IMPLEMENTATION
+                   ▲
+                   │
+               ██
+               ██
+                   │
+             EMPIRICAL
+             VALIDATION
+                   ▲
+                   │
+                █
+
+In other words:
+
+The architecture is substantially ahead of the implementation.
+
+That's normal at this stage.
+
+But the next move should be to collapse that gap, not expand the architecture.
+
+
+---
+
+31. My recommendation for v0.01
+
+I would make the milestone extremely boring.
+
+That's a compliment.
+
+v0.01 should prove only this:
+
+Observation
+     ↓
+Evidence
+     ↓
+Claim
+     ↓
+Verification
+     ↓
+Admissibility
+     ↓
+Authorization
+     ↓
+Decision
+
+with:
+
+Required properties
+
+1. deterministic serialization
+
+
+2. immutable/object-bound identifiers
+
+
+3. explicit provenance
+
+
+4. dependency graph
+
+
+5. temporal validity
+
+
+6. explicit epistemic status
+
+
+7. fail-closed behavior
+
+
+8. independent verification
+
+
+9. replay detection
+
+
+10. mutation resistance
+
+
+
+Then test:
+
+valid case
++
+every obvious invalid mutation
+
+That would be an extremely strong v0.01.
+
+
+---
+
+32. One thing I would NOT do
+
+Don't add a model yet.
+
+Seriously.
+
+The README says:
+
+> Nothing here is autonomous or runs a model.
+
+
+
+Keep that sentence true for a little longer.
+
+The model is not the difficult part.
+
+The difficult part is establishing:
+
+What does the model's output mean?
+Who/what verifies it?
+What evidence does it depend on?
+What authority exists?
+What action is permitted?
+What exactly gets recorded?
+Can another process independently reconstruct the decision?
+
+Once those contracts exist, attaching Qwen, Llama, or another model is comparatively straightforward.
+
+Doing it in the reverse order makes the epistemic boundary much harder to prove.
+
+
+---
+
+33. Final verdict
+
+Eunoia is not yet a software system capable of doing what its architecture describes.
+
+That is the biggest limitation.
+
+But I would not dismiss it as merely philosophical.
+
+There is already a real engineering/research core here:
+
+explicit epistemic states
+
+evidence/provenance separation
+
+verification/authorization separation
+
+fail-closed decisions
+
+temporal validity
+
+dependency graphs
+
+role separation
+
+adversarial mutation testing
+
+methodology self-application
+
+preservation of failed/refuted states
+
+migration lineage
+
+explicit prohibition against treating conformance as truth
+
+explicit separation of research from runtime
+
+
+And the SWAY work gives the repository something many architecture documents don't have:
+
+> You have already caught your own methodology lying.
+
+
+
+That is important.
+
+The next question isn't whether the architecture sounds good.
+
+It's whether the machine implementation can be made to lie—and whether an independent verifier reliably catches it.
+
+That's the experiment I would make the center of Eunoia v0.01.
+
+If you pull that off, Eunoia stops being primarily a manifesto/specification and starts becoming a testable epistemic control substrate. That's a much more defensible technical object.
