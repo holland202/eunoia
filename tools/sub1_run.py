@@ -25,7 +25,8 @@ from eunoia.substrate import digest  # noqa: E402
 SABOTAGE = "--sabotage" in sys.argv
 CASES = sorted(K.EXPECTED, key=lambda c: int(c[1:]))
 BASE = "bf437b0"
-RECORDED = None  # pinned after the registered run: (held tuple, digest)
+RECORDED = (("P1", "P2", "P3", "P4", "P5", "P6", "P7"),
+            "1d88bb5021e4744aea7e6a5c78b224bb15520de2395a9cd9a335f13e48ae5ac0")  # registered run, e5c66e2
 
 MUTANTS = {
     "M_E1": ("if not isinstance(e, Evidence):  # E1", "if False:  # E1"),
