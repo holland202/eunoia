@@ -46,3 +46,24 @@ class OracleGate(Gate):
 
     def rules(self, view):
         return decide_view(view)
+
+
+NO_VALUE_ORIGINS = frozenset({"ABSENT", "DEFAULTED", "NEVER_WIRED", "UNVERIFIED"})
+
+
+def decide_view_origin(v: dict) -> tuple:
+    """R1-R9 unchanged, plus R5o after R5 (SUB-3): if R1-R5 passed and any evidence declares an origin that
+    carries no obtained value, defer. Undeclared origin does not trigger it (SUB-3 S5 is the open door)."""
+    outcome, rule, reason = decide_view(v)
+    if rule in ("R6", "R7", "R8", "R9"):
+        for e in v["evidence"]:
+            if e.get("origin") in NO_VALUE_ORIGINS:
+                return "DEFER", "R5o", f"evidence origin {e['origin']}"
+    return outcome, rule, reason
+
+
+class OriginOracleGate(Gate):
+    rule_set = "eunoia-test-oracle/r1-r9+r5o"
+
+    def rules(self, view):
+        return decide_view_origin(view)

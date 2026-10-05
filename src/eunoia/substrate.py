@@ -21,6 +21,10 @@ RECORD_SCHEMA = "eunoia.decision/0.01"
 EVIDENCE_STATES = frozenset({"AUTHENTIC", "UNVERIFIED", "INVALID", "EXPIRED", "SUPERSEDED"})
 VERIFICATION_STATUSES = frozenset({"SUPPORTED", "NOT_SUPPORTED", "REFUTED", "ERROR"})
 OUTCOMES = ("ALLOW", "DEFER", "REFUSE")
+# Where a value came from (SUB-3). Copied from evidence-ledger SPEC.md section 2 (holland202/evidence-ledger
+# 4852882), where it is called evidence_state. Orthogonal to Evidence.state above. None = not declared.
+ORIGIN_STATES = frozenset({"MEASURED", "OPERATOR", "DERIVED", "INFERRED", "ABSENT", "DEFAULTED",
+                           "NEVER_WIRED", "UNVERIFIED"})
 
 
 def canonical(obj: Any) -> bytes:
@@ -93,19 +97,26 @@ class Observation:
 
 @dataclass(frozen=True)
 class Evidence:
-    """An observation with an evidence state and a validity window."""
+    """An observation with an evidence state, a validity window and, optionally, its origin (SUB-3).
+    An undeclared origin (None) leaves data, ids and records exactly as before SUB-3."""
     observation: Observation
     state: str
     validity: Validity
+    origin: Optional[str] = None
 
     def __post_init__(self):
         if not isinstance(self.observation, Observation):
             raise TypeError("Evidence wraps an Observation")
         if self.state not in EVIDENCE_STATES:
             raise ValueError(f"unknown evidence state {self.state!r}")
+        if self.origin is not None and self.origin not in ORIGIN_STATES:
+            raise ValueError(f"unknown origin {self.origin!r}")
 
     def data(self) -> dict:
-        return {"observation": self.observation.id, "state": self.state, "validity": self.validity.data()}
+        d = {"observation": self.observation.id, "state": self.state, "validity": self.validity.data()}
+        if self.origin is not None:
+            d["origin"] = self.origin
+        return d
 
     @property
     def id(self) -> str:
@@ -198,8 +209,8 @@ class Decision:
 def _dependencies(view: dict) -> dict:
     return {
         "observation": [digest(e["observation"]) for e in view["evidence"]],
-        "evidence": [digest({k: e[k] for k in ("state", "validity")} | {"observation": digest(e["observation"])})
-                     for e in view["evidence"]],
+        "evidence": [digest({k: e[k] for k in ("state", "validity", "origin") if k in e}
+                            | {"observation": digest(e["observation"])}) for e in view["evidence"]],
         "claim": view["claim_id"],
         "verifier": None if view["verification"] is None else view["verification"]["verifier_id"],
         "verification": None if view["verification"] is None else digest(view["verification"]),
@@ -228,7 +239,8 @@ class Gate(abc.ABC):
             "issued": result is not None and issued(result),
             "verification": None if result is None else result.data(),
             "evidence": [{"observation": e.observation.data(), "state": e.state, "validity": e.validity.data(),
-                          "intact": e.observation.intact()} for e in claim.evidence],
+                          "intact": e.observation.intact()} | ({} if e.origin is None else {"origin": e.origin})
+                         for e in claim.evidence],
             "authorization": None if authorization is None else authorization.data(),
         }
         outcome, rule, reason = self.rules(view)
