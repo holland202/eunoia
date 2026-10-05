@@ -1,0 +1,47 @@
+SUB-1 | registered run | python 3.13.16 | linux
+  C1   expected ALLOW  gate ALLOW  rival ALLOW
+  C2   expected DEFER  gate DEFER  rival REFUSE
+  C3   expected REFUSE gate REFUSE rival ALLOW
+  C4   expected REFUSE gate REFUSE rival ALLOW
+  C5   expected DEFER  gate DEFER  rival REFUSE
+  C6   expected REFUSE gate REFUSE rival REFUSE
+  C7   expected DEFER  gate DEFER  rival REFUSE
+  C8   expected DEFER  gate DEFER  rival ALLOW
+  C9   expected DEFER  gate DEFER  rival ALLOW
+  C10  expected DEFER  gate DEFER  rival ALLOW
+  C11  expected DEFER  gate DEFER  rival ALLOW
+  C12  expected DEFER  gate DEFER  rival REFUSE
+  C13  expected REFUSE gate REFUSE rival REFUSE
+  C14  expected REFUSE gate REFUSE rival ALLOW
+  C15  expected DEFER  gate DEFER  rival ALLOW
+  C16  expected REFUSE gate REFUSE rival REFUSE
+  C17  expected REFUSE gate REFUSE rival REFUSE
+  C18  expected DEFER  gate DEFER  rival ALLOW
+  C19  expected DEFER  gate DEFER  rival ALLOW
+  M_E1   KILLED
+  M_E2   KILLED
+  M_E3   KILLED
+  M_E4   KILLED
+  M_E5   KILLED
+  M_E6   KILLED
+  M_E7   KILLED
+  M_E8   KILLED
+  M_E9   KILLED
+  M_E10  KILLED
+  M0     SURVIVED
+  C1 record sha256 28b28aaea01ca6608351d635cea87f7616c6e2856b017a6fbd389025ed3862e2 | subprocess 28b28aaea01ca6608351d635cea87f7616c6e2856b017a6fbd389025ed3862e2
+  replay {'match': True, 'mismatches': [], 'outcome': 'ALLOW'} | tamper caught {'observation': True, 'evidence': True, 'claim': True, 'verifier': True, 'verification': True, 'authorization': True}
+  at bf437b0: found True, Gate is None True | now classes 10 of 10
+  pre-existing tests: 15 passed (exit 0)
+  P1 gate matches expected on 19 of 19
+  P2 rival matches ['C1', 'C6', 'C13', 'C16', 'C17']; wrong ALLOW on ['C3', 'C4', 'C8', 'C9', 'C10', 'C11', 'C14', 'C15', 'C18', 'C19']
+
+  P1  HELD
+  P2  HELD
+  P3  HELD
+  P4  HELD
+  P5  HELD
+  P6  HELD
+  P7  HELD
+VERDICT 7 of 7 as registered (P8 is CI; P9 is the unrun door)
+DIGEST 1d88bb5021e4744aea7e6a5c78b224bb15520de2395a9cd9a335f13e48ae5ac0

@@ -1,17 +1,29 @@
 """
-Eunoia v0.01 — minimal evidence-bounded substrate (skeleton).
+Eunoia v0.01 — minimal evidence-bounded substrate.
 
-Status: PROPOSAL / architectural prototype.
-This package currently contains only the public-API surface and documentation
-anchors. Full implementations of the contracts are the next executable target.
+Status: PROTOTYPE, self-tested (SUB-1, docs/SUB1_PREREG.md). Not production-ready.
 
-See docs/DESIGN_NOTES.md and ARCHITECTURE.md.
+Until SUB-1 every public name here was a ``None`` placeholder, so ``from eunoia import Gate`` silently
+gave no gate. They are now the real classes from ``eunoia.substrate``.
 """
 
 __version__ = "0.01.0-dev"
 
-# Public API surface (intentionally tiny). Implementations will land here
-# incrementally and only after parity tests exist.
+from .substrate import (  # noqa: E402
+    Authorization,
+    Claim,
+    Decision,
+    Evidence,
+    Gate,
+    Observation,
+    Provenance,
+    Validity,
+    VerificationResult,
+    Verifier,
+    execute,
+    replay,
+)
+
 __all__ = [
     "Observation",
     "Evidence",
@@ -22,16 +34,7 @@ __all__ = [
     "Authorization",
     "Gate",
     "Decision",
+    "Validity",
 ]
-
-# Placeholder names so import-time checks do not fail while the substrate
-# is still under construction. Real classes replace these in later commits.
-Observation = None
-Evidence = None
-Claim = None
-Provenance = None
-Verifier = None
-VerificationResult = None
-Authorization = None
-Gate = None
-Decision = None
+# execute and replay are functions, importable from here but kept out of __all__ (SUB-1 P6 registered
+# __all__ as classes only).
