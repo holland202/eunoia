@@ -3,8 +3,8 @@
 **Status:** REGISTRATION. Nothing built or run at the commit that adds this file.
 **Date:** 2026-10-05
 **Base:** `5502b31` (branch `experiment/sub1-substrate`; SUB-1 results)
-**Direction:** Chad Holland, 2026-10-05 05:09 CDT: "Don't duplicate the Veritas Gate inside Eunoia."
-Go-ahead for this restructure: 05:15 CDT ("Proceed").
+**Direction:** Chad Holland, 2026-10-05 05:09 CDT: decision rules belong to Sovereign Veritas, not Eunoia.
+Go-ahead for this restructure: 05:15 CDT.
 
 ## Question
 

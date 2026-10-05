@@ -5,7 +5,7 @@
 **Base:** `ef570a8` (branch `experiment/sub2-gate-out`; SUB-2 results). Baseline at the base, run before
 this file: 50 tests pass; `tools/sub2_run.py` prints `VERDICT 5 of 5` and
 `DIGEST 2c04d80e5dd249cce1c578a6d825fb38965c21f0570fa8c2cdec307e3f5a8e87`.
-**Go-ahead:** Chad Holland, 2026-10-05 05:43 CDT ("You make the best decision").
+**Go-ahead:** Chad Holland, 2026-10-05 05:43 CDT.
 
 ## Question
 

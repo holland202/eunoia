@@ -55,5 +55,5 @@ evidence-ledger interoperate.
 ## Provenance
 
 AI participation: Claude (Opus 5.5, Anthropic) wrote the registration, code, tests and this file. Human
-validation: Chad Holland directed the work ("You make the best decision"); review was of the summary and
+validation: Chad Holland directed the work; review was of the summary and
 CI, not line by line. Chad is responsible for the final artifact.
