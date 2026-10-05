@@ -8,12 +8,13 @@ import pytest
 
 import eunoia
 from eunoia import Claim, Gate, Validity, VerificationResult, execute, replay
+from oracle import OracleGate
 from eunoia.substrate import digest
 import sub1_cases as K
 
 
 def decide(case):
-    return Gate().decide(*K.build(case))
+    return OracleGate().decide(*K.build(case))
 
 
 @pytest.mark.parametrize("case", sorted(K.EXPECTED, key=lambda c: int(c[1:])))
@@ -67,20 +68,20 @@ def test_E7_authentic_is_not_true_and_hash_is_rechecked():
 
 def test_E8_record_replays_and_detects_altered_dependencies():
     rec = decide("C1").record
-    assert replay(rec) == {"match": True, "mismatches": [], "outcome": "ALLOW"}
+    assert replay(rec, OracleGate()) == {"match": True, "mismatches": [], "outcome": "ALLOW"}
     for key in ("observation", "evidence", "claim", "verifier", "verification", "authorization"):
         bad = json.loads(json.dumps(rec))
         dep = bad["dependencies"][key]
         bad["dependencies"][key] = [("0" * 64)] if isinstance(dep, list) else "0" * 64
-        assert key in replay(bad)["mismatches"], key
+        assert key in replay(bad, OracleGate())["mismatches"], key
 
 
 def test_E8_record_is_deterministic_across_processes():
     h1 = digest(decide("C1").record)
     h2 = digest(decide("C1").record)
     code = ("import sys,os; sys.path[:0]=[os.environ.get('EUNOIA_SRC') or 'src','tests/substrate'];"
-            "import sub1_cases as K; from eunoia import Gate; from eunoia.substrate import digest;"
-            "print(digest(Gate().decide(*K.build('C1')).record))")
+            "import sub1_cases as K; from oracle import OracleGate; from eunoia.substrate import digest;"
+            "print(digest(OracleGate().decide(*K.build('C1')).record))")
     import os, pathlib
     root = pathlib.Path(__file__).resolve().parents[2]
     h3 = subprocess.run([sys.executable, "-c", code], cwd=root, capture_output=True, text=True,
@@ -107,10 +108,35 @@ def test_crashing_verifier_is_error_not_pass():
     claim = Claim(K.STATEMENT, [K.evidence()])
     r = Verifier("boom", lambda c: 1 / 0).run(claim)
     assert r.status == "ERROR"
-    assert Gate().decide(claim, r, K.authorization(), K.ACTION, K.T).outcome == "DEFER"
+    assert OracleGate().decide(claim, r, K.authorization(), K.ACTION, K.T).outcome == "DEFER"
 
 
 def test_public_names_are_real_classes():
     for name in eunoia.__all__:
         obj = getattr(eunoia, name)
         assert obj is not None and isinstance(obj, type), name
+
+
+def test_SUB2_gate_is_abstract_and_ships_no_rules():
+    with pytest.raises(TypeError):
+        Gate()
+
+
+def test_SUB2_replay_names_the_rule_set():
+    class AlwaysDefer(Gate):
+        rule_set = "always_defer"
+
+        def rules(self, view):
+            return "DEFER", "X", "always"
+    rec = decide("C1").record
+    out = replay(rec, AlwaysDefer())
+    assert "rule_set" in out["mismatches"] and "decision" in out["mismatches"]
+
+
+def test_SUB2_rule_set_returning_garbage_fails_closed():
+    class Garbage(Gate):
+        rule_set = "garbage"
+
+        def rules(self, view):
+            return "YES", "X", "?"
+    assert Garbage().decide(*K.build("C1")).outcome == "REFUSE"

@@ -1,0 +1,172 @@
+{
+ "c1_record_sha256": "e7895008a6385e05ab43f98321b20276832086aeefbd353e1d7d0bd6d8b92866",
+ "detector_now": [],
+ "detector_sub1": [
+  [
+   "eunoia/substrate.py",
+   227,
+   "REFUSE"
+  ],
+  [
+   "eunoia/substrate.py",
+   200,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   202,
+   "REFUSE"
+  ],
+  [
+   "eunoia/substrate.py",
+   204,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   206,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   208,
+   "REFUSE"
+  ],
+  [
+   "eunoia/substrate.py",
+   210,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   220,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   222,
+   "REFUSE"
+  ],
+  [
+   "eunoia/substrate.py",
+   224,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   226,
+   "ALLOW"
+  ],
+  [
+   "eunoia/substrate.py",
+   213,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   215,
+   "DEFER"
+  ],
+  [
+   "eunoia/substrate.py",
+   217,
+   "DEFER"
+  ]
+ ],
+ "gate_abstract": true,
+ "mutants": {
+  "M0": [
+   "SURVIVED",
+   null
+  ],
+  "M_E1": [
+   "KILLED",
+   "src/eunoia/substrate.py"
+  ],
+  "M_E10": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E2": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E3": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E4": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E5": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E6": [
+   "KILLED",
+   "src/eunoia/substrate.py"
+  ],
+  "M_E7": [
+   "KILLED",
+   "tests/substrate/oracle.py"
+  ],
+  "M_E8": [
+   "KILLED",
+   "src/eunoia/substrate.py"
+  ],
+  "M_E9": [
+   "KILLED",
+   "src/eunoia/substrate.py"
+  ]
+ },
+ "oracle_decisions": {
+  "C1": "ALLOW",
+  "C10": "DEFER",
+  "C11": "DEFER",
+  "C12": "DEFER",
+  "C13": "REFUSE",
+  "C14": "REFUSE",
+  "C15": "DEFER",
+  "C16": "REFUSE",
+  "C17": "REFUSE",
+  "C18": "DEFER",
+  "C19": "DEFER",
+  "C2": "DEFER",
+  "C3": "REFUSE",
+  "C4": "REFUSE",
+  "C5": "DEFER",
+  "C6": "REFUSE",
+  "C7": "DEFER",
+  "C8": "DEFER",
+  "C9": "DEFER"
+ },
+ "replay_always_defer": {
+  "match": false,
+  "mismatches": [
+   "rule_set",
+   "decision"
+  ],
+  "outcome": "DEFER"
+ },
+ "replay_oracle": {
+  "match": true,
+  "mismatches": [],
+  "outcome": "ALLOW"
+ },
+ "tamper_caught": {
+  "authorization": true,
+  "claim": true,
+  "evidence": true,
+  "observation": true,
+  "verification": true,
+  "verifier": true
+ },
+ "verdicts": {
+  "P1": true,
+  "P2": true,
+  "P3": true,
+  "P4": true,
+  "P5": true
+ }
+}

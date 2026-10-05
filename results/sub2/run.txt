@@ -1,0 +1,24 @@
+SUB-2 | registered run | python 3.13.16 | linux
+  detector at fb5194a: 14 hits in ['eunoia/substrate.py']; now: 0
+  Gate() abstract: True | OracleGate matrix 19 of 19
+  M_E1   KILLED   src/eunoia/substrate.py
+  M_E2   KILLED   tests/substrate/oracle.py
+  M_E3   KILLED   tests/substrate/oracle.py
+  M_E4   KILLED   tests/substrate/oracle.py
+  M_E5   KILLED   tests/substrate/oracle.py
+  M_E6   KILLED   src/eunoia/substrate.py
+  M_E7   KILLED   tests/substrate/oracle.py
+  M_E8   KILLED   src/eunoia/substrate.py
+  M_E9   KILLED   src/eunoia/substrate.py
+  M_E10  KILLED   tests/substrate/oracle.py
+  M0     SURVIVED -
+  replay oracle {'match': True, 'mismatches': [], 'outcome': 'ALLOW'} | always_defer ['rule_set', 'decision'] | tamper caught 6 of 6
+  tests/invariants: 15 passed (exit 0) | tests/substrate: 35 passed (exit 0)
+
+  P1  HELD
+  P2  HELD
+  P3  HELD
+  P4  HELD
+  P5  HELD
+VERDICT 5 of 5 as registered (P6 is CI; P7 is the unrun door)
+DIGEST 2c04d80e5dd249cce1c578a6d825fb38965c21f0570fa8c2cdec307e3f5a8e87
