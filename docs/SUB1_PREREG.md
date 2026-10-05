@@ -152,4 +152,4 @@ JSON of {case decisions, rival decisions, mutant outcomes, C1 record hash, repla
 ## Provenance
 
 Spec: `docs/DESIGN_NOTES.md` (Chad Holland, 2026-09-30). Registration drafted by Claude (Opus 5.5,
-Anthropic) at Chad's direction ("start working on Eunoia"); direction-level review by Chad.
+Anthropic) at Chad's direction; direction-level review by Chad.
