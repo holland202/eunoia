@@ -50,7 +50,7 @@ evidence-ledger interoperate.
 - **S5:** should undeclared origin block ALLOW? Changes SUB-1's matrix. Chad's decision.
 - Tie the copy to the source: a test that reads evidence-ledger's SPEC §2 at a pinned commit and fails if
   the eight states differ.
-- Corroboration (source independence) and execution binding have no state in evidence-ledger §2 either.
+- Evidence-ledger §2 has no state for whether two pieces of evidence share a source, or for whether an action is bound to run once. Those would need new states, not this copy.
 
 ## Provenance
 
