@@ -1,0 +1,26 @@
+  A0   N=400 ALLOW=187 effects=187 unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A1   N=400 ALLOW=77  effects=77  unsafe=1   95% CI [0.0001, 0.0138]  HELD
+  A2   N=400 ALLOW=0   effects=0   unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A3a  N=400 ALLOW=214 effects=214 unsafe=9   95% CI [0.0103, 0.0423]  HELD
+  A3b  N=400 ALLOW=0   effects=0   unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A4   N=400 ALLOW=0   effects=0   unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A5   N=400 ALLOW=222 effects=222 unsafe=17  95% CI [0.0249, 0.0672]  HELD
+  A6   N=400 ALLOW=231 effects=231 unsafe=21  95% CI [0.0328, 0.0791]  HELD
+  A6c  N=400 ALLOW=0   effects=0   unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A7   N=400 ALLOW=187 effects=187 unsafe=40  95% CI [0.0724, 0.1337]  HELD
+  A7r  N=400 ALLOW=187 effects=127 unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A8   N=400 ALLOW=187 effects=187 unsafe=0   95% CI [0.0000, 0.0092]  HELD
+  A8c  N=400 ALLOW=387 effects=387 unsafe=182 95% CI [0.4054, 0.5052]  HELD
+  A9   N=400 ALLOW=400 effects=400 unsafe=190 95% CI [0.4252, 0.5252]  HELD
+  B1   N=50 effects per intent [2]  HELD
+  B2   {"dup_ci95": [0.0, 0.07112173646419767], "effects_per_intent": [1], "intents_duplicated": 0, "n": 50, "threads": 8}  HELD
+  B2c  {"dup_ci95": [0.9288782635358024, 1.0], "effects_per_intent": [8], "intents_duplicated": 50, "n": 50, "threads": 8}  HELD
+  B3   {"effects": 50, "effects_without_record": 50, "n": 50, "observer_flags": 50}  HELD
+  B3c  {"effects": 50, "effects_without_record": 0, "n": 50, "observer_flags": 0}  HELD
+  C1   N=50 ALLOW=0  HELD
+  C2   N=50 ALLOW=0  HELD
+  C3   N=50 ALLOW=0  HELD
+  C3c  N=50 ALLOW=50  HELD
+mode: registered
+RESULTS_SHA256 aabad186eb7763a14c8ca21a23b36704e70b4cd6c936b3b17c57564a6a9fe12c
+VERDICT  23 of 23 as registered

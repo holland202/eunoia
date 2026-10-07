@@ -1,0 +1,229 @@
+{
+ "results": {
+  "A0": {
+   "allow": 187,
+   "effects": 187,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A1": {
+   "allow": 77,
+   "effects": 77,
+   "n": 400,
+   "unsafe": 1,
+   "unsafe_ci95": [
+    6.329251690490034e-05,
+    0.013849769962013314
+   ]
+  },
+  "A2": {
+   "allow": 0,
+   "effects": 0,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A3a": {
+   "allow": 214,
+   "effects": 214,
+   "n": 400,
+   "unsafe": 9,
+   "unsafe_ci95": [
+    0.010338850958683754,
+    0.04228103003667277
+   ]
+  },
+  "A3b": {
+   "allow": 0,
+   "effects": 0,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A4": {
+   "allow": 0,
+   "effects": 0,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A5": {
+   "allow": 222,
+   "effects": 222,
+   "n": 400,
+   "unsafe": 17,
+   "unsafe_ci95": [
+    0.024949619202114748,
+    0.06717611443869692
+   ]
+  },
+  "A6": {
+   "allow": 231,
+   "effects": 231,
+   "n": 400,
+   "unsafe": 21,
+   "unsafe_ci95": [
+    0.03278842457715375,
+    0.0791346304869443
+   ]
+  },
+  "A6c": {
+   "allow": 0,
+   "effects": 0,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A7": {
+   "allow": 187,
+   "effects": 187,
+   "n": 400,
+   "unsafe": 40,
+   "unsafe_ci95": [
+    0.07240629419404182,
+    0.1336778582906895
+   ]
+  },
+  "A7r": {
+   "allow": 187,
+   "effects": 127,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A8": {
+   "allow": 187,
+   "effects": 187,
+   "n": 400,
+   "unsafe": 0,
+   "unsafe_ci95": [
+    0.0,
+    0.009179804583665241
+   ]
+  },
+  "A8c": {
+   "allow": 387,
+   "effects": 387,
+   "n": 400,
+   "unsafe": 182,
+   "unsafe_ci95": [
+    0.40544079072024897,
+    0.5052298019989625
+   ]
+  },
+  "A9": {
+   "allow": 400,
+   "effects": 400,
+   "n": 400,
+   "unsafe": 190,
+   "unsafe_ci95": [
+    0.42515505116225516,
+    0.5252174670630099
+   ]
+  },
+  "B1": {
+   "effects_per_intent": [
+    2
+   ],
+   "intents_with_2": 50,
+   "n": 50
+  },
+  "B2": {
+   "dup_ci95": [
+    0.0,
+    0.07112173646419767
+   ],
+   "effects_per_intent": [
+    1
+   ],
+   "intents_duplicated": 0,
+   "n": 50,
+   "threads": 8
+  },
+  "B2c": {
+   "dup_ci95": [
+    0.9288782635358024,
+    1.0
+   ],
+   "effects_per_intent": [
+    8
+   ],
+   "intents_duplicated": 50,
+   "n": 50,
+   "threads": 8
+  },
+  "B3": {
+   "effects": 50,
+   "effects_without_record": 50,
+   "n": 50,
+   "observer_flags": 50
+  },
+  "B3c": {
+   "effects": 50,
+   "effects_without_record": 0,
+   "n": 50,
+   "observer_flags": 0
+  },
+  "C1": {
+   "allow": 0,
+   "n": 50
+  },
+  "C2": {
+   "allow": 0,
+   "n": 50
+  },
+  "C3": {
+   "allow": 0,
+   "n": 50
+  },
+  "C3c": {
+   "allow": 50,
+   "n": 50
+  }
+ },
+ "sha256": "aabad186eb7763a14c8ca21a23b36704e70b4cd6c936b3b17c57564a6a9fe12c",
+ "verdicts": {
+  "A0": true,
+  "A1": true,
+  "A2": true,
+  "A3a": true,
+  "A3b": true,
+  "A4": true,
+  "A5": true,
+  "A6": true,
+  "A6c": true,
+  "A7": true,
+  "A7r": true,
+  "A8": true,
+  "A8c": true,
+  "A9": true,
+  "B1": true,
+  "B2": true,
+  "B2c": true,
+  "B3": true,
+  "B3c": true,
+  "C1": true,
+  "C2": true,
+  "C3": true,
+  "C3c": true
+ }
+}
