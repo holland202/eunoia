@@ -351,3 +351,17 @@ def test_constructed_objects_cannot_be_reset_through_the_internal_setter():
     with pytest.raises(AttributeError):
         o._set("provenance", Provenance("x", 9))
     assert o.provenance == Provenance("sensor", 0)
+
+
+# ---- unregistered structural property, added after V001_RESULTS (the method sovereign-veritas's gate_constraint.py
+# already uses on its 4608-case lattice): adding a fault never moves a decision toward ALLOW ----
+ORDER = {"ALLOW": 0, "DEFER": 1, "REFUSE": 2}
+
+
+def test_decisions_are_monotone_in_faults():
+    dec = {bits: _case(dict(zip(FAULTS, bits))).decision
+           for bits in itertools.product((False, True), repeat=len(FAULTS))}
+    violations = [(p, i) for p in dec for i in range(len(FAULTS))
+                  if not p[i] and ORDER[dec[p[:i] + (True,) + p[i + 1:]]] < ORDER[dec[p]]]
+    assert violations == []
+    assert set(dec.values()) == {"ALLOW", "DEFER", "REFUSE"}  # the order is exercised, not trivially constant
