@@ -19,6 +19,7 @@ G = "src/eunoia/governance/__init__.py"
 E = "src/eunoia/evidence/__init__.py"
 V = "src/eunoia/verification/__init__.py"
 C = "src/eunoia/continuity/__init__.py"
+K = "src/eunoia/_canon.py"
 
 # (name, file, exact source text, replacement). Each source text must occur exactly once.
 MUTANTS = [
@@ -57,6 +58,7 @@ MUTANTS = [
     ("verify: non-Outcome is ERROR", V, "if not isinstance(out, Outcome):", "if False:"),
     ("independence: disjointness", C, "if roots[i] & used:", "if False:"),
     ("independence: budget", C, "if len(items) > max_items:", "if False:"),
+    ("seal after id (A4)", K, 'if "id" in self.__dict__:', "if False:"),
 ]
 UNREACHABLE = {"rule6 unknown outcome (unreachable)"}
 SABOTAGE = ("no-op (sabotage control)", G, "from __future__ import annotations", "from __future__ import annotations")

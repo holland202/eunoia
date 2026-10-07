@@ -36,6 +36,9 @@ class Frozen:
         raise AttributeError(f"{type(self).__name__} is immutable")
 
     def _set(self, name: str, value: Any) -> None:
+        # Sealed once the id exists: a field changed after that would leave the id naming other content.
+        if "id" in self.__dict__:
+            raise AttributeError(f"{type(self).__name__} is sealed")
         object.__setattr__(self, name, value)
 
     def __eq__(self, other: object) -> bool:

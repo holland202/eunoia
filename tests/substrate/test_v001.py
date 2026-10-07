@@ -343,3 +343,11 @@ def test_float_times_are_refused():
         Evidence(provenance=Provenance("p", 0), valid_from=0.0, valid_until=1, observation=obs(1))
     with pytest.raises(TypeError):
         Provenance("p", 0.5)
+
+
+# ---- found after the registered run (self-attack A4, V001_RESULTS.md): identity must stay bound to content ----
+def test_constructed_objects_cannot_be_reset_through_the_internal_setter():
+    o = obs(1)
+    with pytest.raises(AttributeError):
+        o._set("provenance", Provenance("x", 9))
+    assert o.provenance == Provenance("sensor", 0)
