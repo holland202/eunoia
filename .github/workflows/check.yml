@@ -14,3 +14,4 @@ jobs:
       - run: python -m pytest -q
       - run: python research/sway/implementation/exact_threshold.py
       - run: python research/sway/implementation/noise.py
+      - run: python tools/substrate_mutants.py

@@ -1,17 +1,21 @@
 """
-Eunoia v0.01 — minimal evidence-bounded substrate (skeleton).
+Eunoia v0.01 — minimal evidence-bounded substrate.
 
-Status: PROPOSAL / architectural prototype.
-This package currently contains only the public-API surface and documentation
-anchors. Full implementations of the contracts are the next executable target.
-
-See docs/DESIGN_NOTES.md and ARCHITECTURE.md.
+Status: PROTOTYPE, self-tested (docs/substrate/V001_PREREG.md, V001_RESULTS.md). Represents
+observation -> evidence -> claim -> verification -> authorization -> decision with explicit
+provenance, temporal validity and a content-addressed dependency record. It checks structure,
+integrity and time, not truth, and it executes nothing. Not a security boundary against code in
+the same process. Not sovereign-veritas's sv.gate/0.
 """
+
+from .decisions import Decision, check_record
+from .evidence import Claim, Evidence, Observation
+from .governance import Authorization, Gate
+from .provenance import Provenance
+from .verification import Outcome, VerificationResult, Verifier
 
 __version__ = "0.01.0-dev"
 
-# Public API surface (intentionally tiny). Implementations will land here
-# incrementally and only after parity tests exist.
 __all__ = [
     "Observation",
     "Evidence",
@@ -19,19 +23,9 @@ __all__ = [
     "Provenance",
     "Verifier",
     "VerificationResult",
+    "Outcome",
     "Authorization",
     "Gate",
     "Decision",
+    "check_record",
 ]
-
-# Placeholder names so import-time checks do not fail while the substrate
-# is still under construction. Real classes replace these in later commits.
-Observation = None
-Evidence = None
-Claim = None
-Provenance = None
-Verifier = None
-VerificationResult = None
-Authorization = None
-Gate = None
-Decision = None
