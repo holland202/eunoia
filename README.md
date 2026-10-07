@@ -5,7 +5,7 @@
 > the consciousness module, the geometry protocol). **PROTOTYPE:** two small SWAY helpers and the checks
 > below. **NOT PRODUCTION-READY:** all of it. Nothing here is autonomous or runs a model.
 
-**Headline (measured):** there is no empirical result in this repository yet, and it says so. What is
+**Headline (measured):** there is no empirical result about the world in this repository, and it says so. The v0.01 substrate (2026-10-07, [docs/substrate/V001_RESULTS.md](docs/substrate/V001_RESULTS.md)) is a self-tested prototype: it refuses missing or mismatched authority, never ALLOWs on a crashed or unreadable verifier, and counts two readings from one source once, but a fabricated input its verifiers accept is still ALLOWed. What is
 measured is that its own guards can fail: on 2026-09-30 the SWAY state schema accepted 3 of 4 "settled
 without evidence" mutants. It now rejects all 4. The exact-threshold helper had returned the wrong answer
 for `0.3 − 0.1 ≥ 0.2`; floats are now refused. See [STATUS.md](STATUS.md).

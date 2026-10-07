@@ -1,6 +1,6 @@
 # Status
 
-**Last updated:** 2026-09-30  
+**Last updated:** 2026-10-07  
 **Rule:** Do not fabricate evidence. Do not silently resolve OPEN items.
 
 ## Component evidence table
@@ -26,7 +26,7 @@
 | Verification resource scheduler | PROPOSAL Phase 0–4 | Per-request + epoch budgets; DEFER_RESOURCE_BUDGET | Identity not required for safety |
 | Capability = host-issued opaque token | PROPOSAL | UntrustedCode ↛ Capability | Rust privacy alone is insufficient |
 | Eunoia integration | Proposed | This repository v0.1 + refinements | Foundational architecture only |
-| **Eunoia v0.01 substrate** | **PROPOSAL / next executable target** | docs/DESIGN_NOTES.md + ARCHITECTURE.md | Minimal contracts for Observation → Evidence → Claim → Verification → Authorization → Decision. Skeleton only; no full implementation yet. |
+| **Eunoia v0.01 substrate** | **PROTOTYPE, self-tested** (2026-10-07) | docs/substrate/V001_PREREG.md, V001_RESULTS.md | Observation → Evidence → Claim → Verification → Authorization → Decision implemented. 11 of 12 registered predictions held; P10 REFUTED as worded (one unreachable branch survives; 27 of 27 reachable guards killed). Checks structure, integrity and declared time, not truth; independence is from *declared* provenance. Not sv.gate/0. Container only; S25 NOT VALIDATED |
 
 ## Fixed 2026-09-30 (review of this repository)
 
@@ -58,7 +58,7 @@ Boundary test: DOOR
 
 ## Next executable targets
 
-1. **Eunoia v0.01 substrate** — implement the minimal contracts (Observation, Evidence, Claim, VerificationResult, Authorization, Gate, Decision, Provenance, Dependency, Validity) with adversarial tests and a basic decision-record example. See docs/DESIGN_NOTES.md.
+1. **Eunoia v0.01 substrate** — built (V001_RESULTS.md). Open: replay a decision from its record; an external time witness (A1); authenticated sources for independence (A3); P11 composition with sovereign-veritas (needs an adapter).
 2. Rust reference model: T→T' taxonomy expansion/taint + verification resource scheduler.
 3. Consciousness module: formal schemas + reference-case suite (thermostat … human) + preregistered pilot.
 4. Repository inventory / audit tool (tools/eunoia_repo_audit.py) before any large-scale migration of external repositories.
